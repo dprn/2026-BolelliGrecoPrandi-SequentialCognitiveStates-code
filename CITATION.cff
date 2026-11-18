@@ -11,5 +11,6 @@ authors:
   - family-names: Prandi
     given-names: Dario
 repository-code: "https://github.com/dprn/2026-BolelliGrecoPrandi-SequentialCognitiveStates-code"
+doi: "10.5281/zenodo.24339684"
 version: "1.0.0"
 date-released: "2026-11-18"

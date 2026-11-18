@@ -1,5 +1,7 @@
 # Sequential cognitive states: code
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24339684.svg)](https://doi.org/10.5281/zenodo.24339684)
+
 This repository holds the code that produces every computed figure and number of
 the paper
 
@@ -80,6 +82,13 @@ committed ones but not bit-identical. Since the periodic orbit depends on the
 trained field, derived quantities can then move noticeably: between two machines
 we observed periods differing in the second digit. `make verify` and `make all`
 never retrain.
+
+## Citation
+
+Version 1.0.0, the one used for the paper, is archived on Zenodo as
+[10.5281/zenodo.24339684](https://doi.org/10.5281/zenodo.24339684). The concept
+DOI [10.5281/zenodo.24339683](https://doi.org/10.5281/zenodo.24339683) always
+resolves to the latest version. See also `CITATION.cff`.
 
 ## License
 
