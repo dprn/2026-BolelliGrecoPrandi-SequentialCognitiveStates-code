@@ -1,0 +1,13 @@
+{
+  "title": "Code for \"Modeling sequential cognitive states via population-level cortical dynamics\"",
+  "upload_type": "software",
+  "description": "Code that produces every computed figure and number of the paper <i>Modeling sequential cognitive states via population-level cortical dynamics</i> by M. Virginia Bolelli, Luca Greco and Dario Prandi: the heteroclinic cycle of Figure 2.1(b), the trained neural fields of Section 5 with their checks, and the cyclic-inhibition example of the Supplementary Material.",
+  "creators": [
+    {"name": "Bolelli, M. Virginia", "affiliation": "L2S, Université Paris-Saclay, CentraleSupélec"},
+    {"name": "Greco, Luca", "affiliation": "L2S, Université Paris-Saclay, CentraleSupélec"},
+    {"name": "Prandi, Dario", "affiliation": "CNRS, L2S, Université Paris-Saclay, CentraleSupélec"}
+  ],
+  "license": "MIT",
+  "access_right": "open",
+  "keywords": ["heteroclinic dynamics", "neural fields", "sequential neural activity", "universal approximation", "Lotka-Volterra"]
+}
