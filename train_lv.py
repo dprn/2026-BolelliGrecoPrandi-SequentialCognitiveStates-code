@@ -26,10 +26,13 @@ multipliers) are computed from the cached weights by verify_lv.py.
 
 Files written:
 
-  results/lv-training-symmetric.npz    weights, training history, trajectories
+  results/lv-training-symmetric.npz    weights, training history (losses of
+                                       the last minibatch of each epoch),
+                                       trajectories
   results/lv-training-asymmetric.npz   of g and f_theta, y(t) on the
                                        displayed window
-  results/lv-training.json             training settings, final losses,
+  results/lv-training.json             training settings, losses of the
+                                       last minibatch,
                                        periods, projection errors
   figures/comparison_symmetric.png     figures/comparison_asymmetric.png
   figures/populations_symmetric.png    figures/populations_asymmetric.png
@@ -59,7 +62,7 @@ from matplotlib.colors import Normalize, TwoSlopeNorm  # noqa: E402
 
 from lvnet import (  # noqa: E402
     CONDITIONS, DT, INTEGRATION, NETWORKS, T_END,
-    TrainingConfig, estimate_period, first_return_time, g_lv, integrate,
+    TrainingConfig, estimate_period, g_lv, integrate,
     model_from_weights, times, train_model, x_initial,
 )
 
@@ -134,7 +137,6 @@ def compute():
 
         T, t0, spread, recurrence, component, level = estimate_period(
             times, ftheta)
-        T_het_first, _ = first_return_time(times, g, component, level)
         # From the reference crossing t0 to the end of the run, a little
         # more than three periods.
         window = times >= t0
@@ -152,12 +154,11 @@ def compute():
         summary[key] = {
             "lambda_u": eigs.tolist(),
             "training_seconds": round(train_seconds, 1),
-            "final_loss": {"total": float(history[-1, 0]),
+            "final_batch_loss": {"total": float(history[-1, 0]),
                            "value": float(history[-1, 1]),
                            "jacobian": float(history[-1, 2])},
             "period": {
                 "T": T,
-                "heteroclinic_first_return": T_het_first,
                 "time_origin": t0,
                 "section_component": NETWORKS[component],
                 "section_level": float(level),
@@ -169,7 +170,8 @@ def compute():
             },
         }
         print(json.dumps({k: summary[key][k] for k in
-                          ("final_loss", "period")}, indent=1), flush=True)
+                          ("final_batch_loss", "period")}, indent=1),
+              flush=True)
 
     with open(RESULTS, "w") as fh:
         json.dump(summary, fh, indent=2)

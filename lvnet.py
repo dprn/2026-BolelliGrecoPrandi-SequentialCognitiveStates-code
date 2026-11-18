@@ -289,6 +289,9 @@ def train_model(lambda_u, config=TrainingConfig(), verbose=True):
                 v_hat = v / (1.0 - beta2**step)
                 parameter -= lr * m_hat / (np.sqrt(v_hat) + 1e-8)
 
+        # One row per epoch: total, value and Jacobian losses of the last
+        # minibatch of that epoch, not averages over the epoch.  The total
+        # includes the plane penalty.
         history.append((loss, value_loss, jac_loss))
         if verbose and (epoch % 250 == 0 or epoch == config.epochs - 1):
             print(
@@ -388,14 +391,6 @@ def estimate_period(t, x):
 
     t0 = float(crossings[-4])
     return T, t0, spread, recurrence, component, level
-
-
-def first_return_time(t, x, component, level):
-    """First return time to the same oriented section used for f_theta."""
-    crossings, _ = oriented_crossings(t, x, component, level, t_min=0.0)
-    if len(crossings) < 2:
-        return np.nan, crossings
-    return float(crossings[1] - crossings[0]), crossings
 
 
 # ---------------------------------------------------------------------------
