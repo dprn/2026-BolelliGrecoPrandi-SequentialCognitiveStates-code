@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.DS_Store
+
+# LaTeX build products of the pgfplots figures
+tex/*.aux
+tex/*.log
+tex/*.fls
+tex/*.fdb_latexmk
+tex/*.synctex.gz
+tex/*.pdf

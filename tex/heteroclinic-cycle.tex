@@ -1,0 +1,73 @@
+% Heteroclinic-cycle figure, Figure 2.1(b) of the paper.
+%
+% Reads the tables ../results/hc-*.dat written by heteroclinic_cycle.py.
+% Build from the repository root with
+%
+%     python3 heteroclinic_cycle.py --replot
+%
+% which runs latexmk in this directory and moves the PDF to ../figures/.
+\documentclass[border=2pt]{standalone}
+\usepackage{amsmath,amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,decorations.markings}
+
+\definecolor{cycle}{HTML}{1F4E79}
+\definecolor{unstable}{HTML}{C1121F}
+\definecolor{stable}{HTML}{2A9D8F}
+\definecolor{orbit}{HTML}{888888}
+
+\tikzset{
+    flow/.style={decoration={markings, mark=at position #1 with {\arrow{Stealth[length=5pt]}}},
+        postaction=decorate},
+    flow/.default=0.5,
+}
+
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+        view={135}{32}, hide axis, width=7.5cm, height=7.5cm, scale only axis,
+        xmin=-0.5, xmax=1.35, ymin=-0.5, ymax=1.35, zmin=-0.5, zmax=1.35,
+        clip=false,
+    ]
+
+    % W^s(\bar x_2) cap X: the face x_3 = 0, with a few of its orbits
+    \def\L{1.25}
+    \addplot3[fill=stable, fill opacity=0.12, draw=none] coordinates {(0,0,0) (\L,0,0) (\L,\L,0) (0,\L,0)};
+    \pgfplotsinvokeforeach{1,2,3,4}{
+        \addplot3[stable, line width=0.5pt, no marks, flow=0.4] table[x=x1, y=x2, z=x3] {../results/hc-stable-#1.dat};
+    }
+
+    % coordinate axes
+    \draw[-{Stealth[length=4pt]}, gray] (axis cs:0,0,0) -- (axis cs:1.6,0,0) node[pos=1, below left=-1pt] {$x_1$};
+    \draw[-{Stealth[length=4pt]}, gray] (axis cs:0,0,0) -- (axis cs:0,1.5,0) node[pos=1, right] {$x_2$};
+    \draw[-{Stealth[length=4pt]}, gray] (axis cs:0,0,0) -- (axis cs:0,0,1.4) node[pos=1, above] {$x_3$};
+
+    % interior orbit
+    \addplot3[orbit, line width=0.5pt, no marks, flow=0.93] table[x=x1, y=x2, z=x3] {../results/hc-orbit.dat};
+
+    % the cycle, with Gamma_1^+ = W_+^u(\bar x_1) highlighted
+    \addplot3[unstable, line width=1.1pt, no marks, flow] table[x=x1, y=x2, z=x3] {../results/hc-gamma-1.dat};
+    \pgfplotsinvokeforeach{2,3}{
+        \addplot3[cycle, line width=1.1pt, no marks, flow] table[x=x1, y=x2, z=x3] {../results/hc-gamma-#1.dat};
+    }
+
+    % the other branch of W^u(\bar x_1), which leaves X
+    \addplot3[unstable, dashed, line width=0.8pt, no marks, flow=0.6] table[x=x1, y=x2, z=x3] {../results/hc-minus.dat};
+
+    % saddles
+    \addplot3[only marks, mark=*, mark size=2pt, mark options={fill=white, draw=black}]
+        coordinates {(1,0,0) (0,1,0) (0,0,1)};
+    \node[above left]  at (axis cs:1,0,0) {$\bar x_1$};
+    \node[above right] at (axis cs:0,1,0) {$\bar x_2$};
+    \node[left]        at (axis cs:0,0,1) {$\bar x_3$};
+
+    % labels of the connections
+    \node[unstable, below=2pt, fill=stable!12, inner sep=1pt] at (axis cs:0.45,0.55,0) {$\Gamma_1^+$};
+    \node[unstable, above] at (axis cs:1.58,-0.52,0) {$W^u(\bar x_1)\setminus\mathcal X$};
+    \node[stable, below] at (axis cs:1.25,1.25,0) {$W^s(\bar x_2)$};
+    \node[cycle] at (axis cs:0,0.75,0.75) {$\Gamma_2^+$};
+    \node[cycle] at (axis cs:0.75,0,0.75) {$\Gamma_3^+$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

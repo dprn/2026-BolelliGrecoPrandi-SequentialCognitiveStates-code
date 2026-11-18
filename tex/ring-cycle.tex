@@ -1,0 +1,80 @@
+% Cyclic-inhibition figure, Figure S1.1 of the Supplementary Material.
+%
+% Reads ../results/ring-timeseries.dat, ../results/ring-bifurcation.dat and
+% ../results/ring-threshold.tex, all written by ring_cycle.py.  Build from the
+% repository root with
+%
+%     python3 ring_cycle.py --replot
+%
+% which runs latexmk in this directory and moves the PDF to ../figures/.
+\documentclass[border=2pt]{standalone}
+\usepackage{amsmath}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepgfplotslibrary{groupplots}
+
+\input{../results/ring-threshold}
+
+\definecolor{popone}{HTML}{1F4E79}
+\definecolor{poptwo}{HTML}{C1121F}
+\definecolor{popthree}{HTML}{2A9D8F}
+
+\pgfplotsset{
+    ringaxis/.style={
+        width=7.4cm, height=5.2cm,
+        scale only axis,
+        axis lines=left,
+        line width=0.5pt,
+        tick align=outside,
+        tick label style={font=\footnotesize},
+        label style={font=\small},
+        title style={font=\small, yshift=-2pt},
+        legend style={font=\footnotesize, draw=none, fill=none,
+                      inner sep=1pt, row sep=-1pt},
+        every axis plot/.append style={line width=0.9pt},
+    },
+}
+
+\begin{document}
+\begin{tikzpicture}
+\begin{groupplot}[
+    group style={group size=2 by 1, horizontal sep=1.9cm},
+    ringaxis,
+]
+
+% ---- (a) the attracting periodic orbit at c = 5 ---------------------
+\nextgroupplot[
+    xlabel={$t$}, ylabel={activity},
+    title={(a) periodic orbit at $c=5$},
+    xmin=0, xmax=12, ymin=-0.75, ymax=0.95,
+    ytick={-0.6,-0.3,0,0.3,0.6},
+    legend pos=north east, legend columns=3,
+]
+\addplot[popone]   table[x=t, y=x1] {../results/ring-timeseries.dat};
+\addplot[poptwo]   table[x=t, y=x2] {../results/ring-timeseries.dat};
+\addplot[popthree] table[x=t, y=x3] {../results/ring-timeseries.dat};
+\legend{$x_1$, $x_2$, $x_3$}
+
+% ---- (b) bifurcation diagram ----------------------------------------
+\nextgroupplot[
+    xlabel={$c$}, ylabel={$x_1$ on the attractor},
+    title={(b) onset of oscillation},
+    xmin=1, xmax=10, ymin=-0.75, ymax=0.95,
+    ytick={-0.6,-0.3,0,0.3,0.6},
+    legend style={at={(0.98,0.30)}, anchor=east}, legend columns=1,
+]
+\addplot[black, dashed, line width=0.6pt, forget plot]
+    coordinates {(\ringcstar,-0.75) (\ringcstar,0.95)};
+% the attractor first, the equilibrium branch on top of it, so that the two
+% remain distinguishable where they coincide, that is below c*
+\addplot[popone] table[x=c, y=xmax] {../results/ring-bifurcation.dat};
+\addlegendentry{attractor}
+\addplot[popone, forget plot] table[x=c, y=xmin] {../results/ring-bifurcation.dat};
+\addplot[gray, dash pattern=on 3pt off 2pt]
+    table[x=c, y=xeq] {../results/ring-bifurcation.dat};
+\addlegendentry{equilibrium $x^\ast$}
+\node[anchor=west, font=\footnotesize] at (axis cs:\ringcstar,0.85)
+    {\,$c^\ast=\ringcstar$};
+\end{groupplot}
+\end{tikzpicture}
+\end{document}

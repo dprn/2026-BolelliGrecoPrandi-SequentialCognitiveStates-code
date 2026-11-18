@@ -1,0 +1,56 @@
+{
+  "sigma": "tanh",
+  "b0": 0.5,
+  "c_star": 2.054725247413026,
+  "orbit": [
+    {
+      "c": 2.1,
+      "peak_to_peak": 0.2900239564388726,
+      "period": 3.6291421785560942
+    },
+    {
+      "c": 5.0,
+      "peak_to_peak": 1.1516901685195946,
+      "period": 3.2929927663658916
+    },
+    {
+      "c": 10.0,
+      "peak_to_peak": 1.178688622330306,
+      "period": 3.0148442895045946
+    },
+    {
+      "c": 40.0,
+      "peak_to_peak": 1.21422327964557,
+      "period": 2.8953318423126007
+    }
+  ],
+  "below_threshold": [
+    {
+      "c": 1.5,
+      "initial_conditions": 18,
+      "worst_distance_to_equilibrium": 2.015596023419164e-11
+    },
+    {
+      "c": 2.0,
+      "initial_conditions": 18,
+      "worst_distance_to_equilibrium": 1.1368267438527369e-11
+    }
+  ],
+  "spread": [
+    {
+      "c": 2.1,
+      "initial_conditions": 22,
+      "extreme_value_spread": 4.407470555189974e-09
+    },
+    {
+      "c": 5.0,
+      "initial_conditions": 22,
+      "extreme_value_spread": 3.560678422109831e-07
+    },
+    {
+      "c": 10.0,
+      "initial_conditions": 22,
+      "extreme_value_spread": 1.5543911602300398e-08
+    }
+  ]
+}
