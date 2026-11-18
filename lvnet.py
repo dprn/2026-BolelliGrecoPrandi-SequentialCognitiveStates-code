@@ -40,7 +40,6 @@ x_initial = np.array([0.89, 0.04, 0.07])
 T_END = 500.0
 DT = 0.05
 PERIOD_TOLERANCE = 0.02
-DISPLAY_PERIODS = 5.0
 CONDITIONS = {
     "symmetric": ("Symmetric", lambda_equal),
     "asymmetric": ("Asymmetric", lambda_slow_cn),

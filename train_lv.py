@@ -58,7 +58,7 @@ import seaborn as sns  # noqa: E402
 from matplotlib.colors import Normalize, TwoSlopeNorm  # noqa: E402
 
 from lvnet import (  # noqa: E402
-    CONDITIONS, DISPLAY_PERIODS, DT, INTEGRATION, NETWORKS, T_END,
+    CONDITIONS, DT, INTEGRATION, NETWORKS, T_END,
     TrainingConfig, estimate_period, first_return_time, g_lv, integrate,
     model_from_weights, times, train_model, x_initial,
 )
@@ -135,7 +135,9 @@ def compute():
         T, t0, spread, recurrence, component, level = estimate_period(
             times, ftheta)
         T_het_first, _ = first_return_time(times, g, component, level)
-        window = (times >= t0) & (times <= t0 + DISPLAY_PERIODS * T)
+        # From the reference crossing t0 to the end of the run, a little
+        # more than three periods.
+        window = times >= t0
 
         np.savez_compressed(
             cache_path(key),
@@ -279,7 +281,7 @@ def population_row(fig, grid, key, p_norm, y_norm):
     n = model.hidden_dim
     T = result["period"]
     t0 = result["time_origin"]
-    # Window [t0, t0 + DISPLAY_PERIODS T] clipped at T_END, cached.
+    # Window [t0, T_END], cached.
     t_pop = result["t_window"]
     y_win = result["y_window"]
 

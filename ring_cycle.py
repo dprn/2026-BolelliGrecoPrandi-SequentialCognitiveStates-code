@@ -23,9 +23,11 @@ equilibrium reached from far-away initial conditions at c = 1.5, 2.
 
 Above c* the range of x_1 is measured by integration, sweeping c upwards and
 starting each run from the previous periodic orbit so that the transients
-stay short.  At and below c* the unique equilibrium is asymptotically stable,
-and the script verifies numerically that it also attracts a spread of
-far-away initial conditions before recording it as the attractor.
+stay short.  At and below c* the table is not integrated: xmin and xmax are
+set to the equilibrium x*(c), which is locally asymptotically stable below c*
+by the theorem.  That it is also the attractor of far-away initial conditions
+is checked separately, by integration at c = 1.5 and c = 2 only, and the
+result goes to ring-results.json without affecting the table.
 
 Finally it builds figures/ring-cycle.pdf with latexmk.  The full run takes
 about fifteen minutes, most of it in the checks.  With --replot the script
