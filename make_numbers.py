@@ -132,6 +132,12 @@ def lv_macros(training, verify):
                             f"eigenvalue of Df_theta there, next to "
                             f"the {name.lower()} one of Dg(e_{i + 1})"))
 
+        out.append((f"lvSaddleDistMax{suffix}",
+                    sigfig(max(min(q["distance_to_e_i"]
+                                   for q in row["f_theta_equilibria"])
+                               for row in v["equilibria"])),
+                    "largest of the three distances above"))
+
         planes = v["plane_condition"]
         for k, row in enumerate(planes):
             n = ORDINALS[k]
@@ -182,6 +188,12 @@ def lv_macros(training, verify):
          "grid points per side on each face"),
         ("lvSweepCount", integer(first["initial_conditions"]["count"]),
          "initial conditions in the sweep"),
+        ("lvSweepTailStart", f"{first['initial_conditions']['tail_start']:g}",
+         "start of the tail compared with the reference orbit"),
+        ("lvSweepLow", f"{min(min(r['x0']) for r in first['initial_conditions']['runs']):g}",
+         "smallest coordinate of the initial conditions"),
+        ("lvSweepHigh", f"{max(max(r['x0']) for r in first['initial_conditions']['runs']):g}",
+         "largest coordinate of the initial conditions"),
     ]
     return out
 
