@@ -360,8 +360,9 @@ def population_row(fig, grid, key, p_norm, y_norm):
 
     axx.set_title("Selected populations")
     axx.set_ylabel(r"$y_j(t)$")
+    # Below the x label t, which an anchor at -0.18 used to cover.
     axx.legend(fontsize=10, ncol=3, loc="upper center",
-               bbox_to_anchor=(.5, -.18))
+               bbox_to_anchor=(.5, -.30))
 
     period_time = t0 + T
     for ax in [axy, axx]:
